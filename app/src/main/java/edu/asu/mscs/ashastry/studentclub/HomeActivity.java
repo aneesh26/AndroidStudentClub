@@ -28,11 +28,11 @@ public class HomeActivity extends ListActivity {
         waypointList.add("Settings");
 
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, waypointList);
-        setListAdapter(adapter);
+
 
         //adding a new commen line
 
-
+        // updating one of the files
 
 
 
