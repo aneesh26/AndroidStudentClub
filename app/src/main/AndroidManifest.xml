@@ -17,6 +17,31 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".AboutUsActivity"
+            android:label="About Us"
+            android:parentActivityName=".HomeActivity">
+        </activity>
+
+        <activity
+            android:name=".FAQsActivity"
+            android:label="F.A.Qs"
+            android:parentActivityName=".HomeActivity">
+        </activity>
+
+        <activity
+            android:name=".EventsActivity"
+            android:label="Events"
+            android:parentActivityName=".EventsActivity">
+        </activity>
+
+        <activity
+            android:name=".NewsActivity"
+            android:label="News"
+            android:parentActivityName=".NewsActivity">
+        </activity>
+
+
     </application>
 
 </manifest>

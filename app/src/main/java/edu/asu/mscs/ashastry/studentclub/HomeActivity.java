@@ -53,16 +53,26 @@ public class HomeActivity extends ListActivity {
         String item = (String) getListAdapter().getItem(position);
 
         if(item.equals("Events")){
+            Intent myIntent = new Intent(HomeActivity.this, EventsActivity.class);
+            HomeActivity.this.startActivity(myIntent);
             Toast.makeText(HomeActivity.this, "Events Clicked", Toast.LENGTH_SHORT).show();
         }else if(item.equals("News")){
+            Intent myIntent = new Intent(HomeActivity.this, NewsActivity.class);
+            HomeActivity.this.startActivity(myIntent);
             Toast.makeText(HomeActivity.this, "News Clicked", Toast.LENGTH_SHORT).show();
         }else if(item.equals("facebook page")){
             Toast.makeText(HomeActivity.this, "FB Clicked", Toast.LENGTH_SHORT).show();
            startActivity(getOpenFacebookIntent(this.getApplicationContext()));
         }else if(item.equals("F.A.Qs")){
             Toast.makeText(HomeActivity.this, "FAQ Clicked", Toast.LENGTH_SHORT).show();
+            Intent myIntent = new Intent(HomeActivity.this, FAQsActivity.class);
+            HomeActivity.this.startActivity(myIntent);
+
         }else if(item.equals("About Us")){
-            getAboutUs();
+         //   getAboutUs();
+            Toast.makeText(HomeActivity.this, "About Us Clicked", Toast.LENGTH_SHORT).show();
+            Intent myIntent = new Intent(HomeActivity.this, AboutUsActivity.class);
+            HomeActivity.this.startActivity(myIntent);
 
           //  Toast.makeText(HomeActivity.this, this.result, Toast.LENGTH_LONG).show();
         }else if(item.equals("Settings")){
