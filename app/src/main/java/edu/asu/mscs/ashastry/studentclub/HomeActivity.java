@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import org.json.*;
 
 
 public class HomeActivity extends ListActivity {
@@ -28,6 +29,7 @@ public class HomeActivity extends ListActivity {
     ArrayList<String> waypointList = new ArrayList<String>();
     ArrayAdapter<String> adapter;
     String result;
+    JSONObject jObject = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +55,8 @@ public class HomeActivity extends ListActivity {
         String item = (String) getListAdapter().getItem(position);
 
         if(item.equals("Events")){
-            Intent myIntent = new Intent(HomeActivity.this, EventsActivity.class);
-            HomeActivity.this.startActivity(myIntent);
+            this.getEvents();
+
             Toast.makeText(HomeActivity.this, "Events Clicked", Toast.LENGTH_SHORT).show();
         }else if(item.equals("News")){
             Intent myIntent = new Intent(HomeActivity.this, NewsActivity.class);
@@ -69,7 +71,7 @@ public class HomeActivity extends ListActivity {
             HomeActivity.this.startActivity(myIntent);
 
         }else if(item.equals("About Us")){
-         //   getAboutUs();
+            getAboutUs();
             Toast.makeText(HomeActivity.this, "About Us Clicked", Toast.LENGTH_SHORT).show();
             Intent myIntent = new Intent(HomeActivity.this, AboutUsActivity.class);
             HomeActivity.this.startActivity(myIntent);
@@ -134,6 +136,34 @@ public class HomeActivity extends ListActivity {
         }
     }
 
+    public void getEvents(){
+        try {
+            URL URLOut = new URL(this.getString(R.string.url_string));
+            MyTaskParams mp = new MyTaskParams(URLOut, "getEvents");
+            AsyncCalc ac = (AsyncCalc) new AsyncCalc().execute(mp);
+            jObject = new JSONObject(result);
+        }
+
+        catch (MalformedURLException m1){
+            android.util.Log.d("Error in URL","");
+        }
+
+        catch (Exception ex) {
+            android.util.Log.d(this.getClass().getSimpleName(), "Error connecting to the Server");
+        }
+    }
+
+    public void afterAsync(String s){
+        try {
+            jObject = new JSONObject(s);
+            Intent myIntent = new Intent(HomeActivity.this, EventsActivity.class);
+            myIntent.putExtra("ListOfEvents",jObject.toString());
+            HomeActivity.this.startActivity(myIntent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        android.util.Log.d(this.getClass().getSimpleName(),s);
+    }
 
     private static class MyTaskParams {
         URL newURL;
@@ -179,6 +209,8 @@ public class HomeActivity extends ListActivity {
                 //double rightOp = exp2;
                 if("getAboutUs".equals(oper)){
                     returnValue = calc.getAboutUs();
+                }else if("getEvents".equals(oper)){
+                    returnValue = calc.getEvents();
                 }
               /*  else if("Subtract".equals(oper)){
                     val = calc.sub(leftOp, rightOp);
@@ -205,7 +237,9 @@ public class HomeActivity extends ListActivity {
             nf.setMaximumFractionDigits(2);
             android.util.Log.d(this.getClass().getSimpleName(),res);
             HomeActivity.this.result = res;
+
             Toast.makeText(HomeActivity.this, res, Toast.LENGTH_LONG).show();
+            HomeActivity.this.afterAsync(res);
             //((TextView)findViewById(R.id.displayNum)).setText(nf.format(res));
             //exp1 = 0;
            // exp2 = 0;

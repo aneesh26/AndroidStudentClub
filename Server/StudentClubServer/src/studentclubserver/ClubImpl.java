@@ -4,10 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 /**
  * Copyright (c) 2014 Tim Lindquist,
@@ -36,11 +40,29 @@ import java.util.logging.Logger;
  * @version 2/1/2015
  **/
 public class ClubImpl extends Object implements Club {
-   public String getAboutUs(){
+   
+    public String getAboutUs(){
        String fileContent = this.getJsonFromResource();
      // return left + right;
        return fileContent;
    }
+    
+    public String getEvents() throws IOException{
+        JSONParser parser = new JSONParser();
+        
+        Object obj = null;
+        try {
+            File f = new File(".");
+            System.out.println(f.getAbsolutePath());
+            File relative = new File("Events.json");
+            obj = parser.parse(new FileReader(relative));
+        } catch (Exception ex) {
+            Logger.getLogger(ClubImpl.class.getName()).log(Level.SEVERE, null, ex);
+        }
+ 
+            JSONObject jsonObject = (JSONObject) obj;
+            return jsonObject.toJSONString();
+    }
    public double subtract(double left, double right){
       return left - right;
    }

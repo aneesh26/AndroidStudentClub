@@ -69,7 +69,14 @@ public class ClubSkeleton extends Object {
                                + nf.format(right));
             String res = ci.getAboutUs();
             result.put("result", res);
-         }else if(method.equals("subtract")){
+         }else if(method.equals("getEvents")){
+             //code to return the About Us page
+            System.out.println("request: "+nf.format(left)+" + "
+                               + nf.format(right));
+            String res = ci.getEvents();
+            result.put("result", res);
+         }
+         else if(method.equals("subtract")){
             System.out.println("request: "+nf.format(left)+" - "
                                + nf.format(right));
             double res = ci.subtract(left, right);
