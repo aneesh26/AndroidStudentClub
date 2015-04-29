@@ -87,7 +87,34 @@ public class ClubStub {
         }
         catch(Exception ex){
 
-            android.util.Log.d(this.getClass().getSimpleName(),"Error with JSON add method");
+            android.util.Log.d(this.getClass().getSimpleName(),"Error with JSON getEvents method");
+            ex.printStackTrace();
+        }
+        return res;
+    }
+
+    public String getNews(){
+        String res = null;
+
+        try{
+            JSONArray ja = new JSONArray();
+            //  ja.put(0,left).put(1,right);
+            String callStr = this.packageCalcCall("getNews",ja);
+            android.util.Log.d("Client --> Server",callStr);
+            System.out.println("Before server call");
+            String retStr = server.call(callStr);
+            System.out.println("After server call");
+            android.util.Log.d("Server --> Client",retStr);
+            JSONObject result = new JSONObject(retStr);
+            res = result.optString("result");
+
+        }
+        catch(ConnectException ex1){
+            errorF = 1;
+        }
+        catch(Exception ex){
+
+            android.util.Log.d(this.getClass().getSimpleName(),"Error with JSON getNews method");
             ex.printStackTrace();
         }
         return res;

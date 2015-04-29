@@ -2,8 +2,14 @@ package edu.asu.mscs.ashastry.studentclub;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.content.ContentResolver;
+import android.content.ContentValues;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.support.v4.app.NavUtils;
+import android.text.format.DateUtils;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -25,17 +31,27 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.EventListener;
 
 /**
  * Created by A on 4/7/2015.
  */
 public class EventsActivity extends ListActivity {
-    ArrayList<String> eventList = new ArrayList<String>();
+    ArrayList<EventItem> eventList = new ArrayList<EventItem>();
     AccessoriesAdapter adapter;
     JSONObject jObj = null;
     JSONArray jArray = null;
     ListView listview;
+
+
+
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,23 +61,36 @@ public class EventsActivity extends ListActivity {
 
         try {
             jObj = new JSONObject((String)(getIntent().getSerializableExtra("ListOfEvents")));
+            jArray = jObj.getJSONArray("EventsData");
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        try {
-            jArray = jObj.getJSONArray("EventsData");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
 
         for(int n = 0; n < jArray.length(); n++)
         {
             JSONObject object = null;
             try {
                 object = jArray.getJSONObject(n);
-                eventList.add(object.getString("name"));
+                String eventDateString = object.getString("date");
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+                Date eventDate = sdf.parse(eventDateString);
+
+                long MINS = 60*1000;
+
+                Date endTime = new Date(eventDate.getTime() + object.getInt("duration") * MINS);
+
+                String dateString = eventDate.toString().substring(0,10);
+
+
+                EventItem e = new EventItem(object.getString("name"),(dateString + " @ " + object.getString("location")),(eventDate.toString().substring(11, 16) + " - " + endTime.toString().substring(11, 16)),eventDate,object.getInt("duration"));
+                eventList.add(e);
+
+
             } catch (JSONException e) {
+                e.printStackTrace();
+            } catch (ParseException e) {
                 e.printStackTrace();
             }
 
@@ -101,6 +130,7 @@ public class EventsActivity extends ListActivity {
         public CheckBox star;
         public TextView titleContent;
         public TextView detailsContent;
+        public TextView timeContent;
         public Button addButton;
     }
 
@@ -113,7 +143,7 @@ public class EventsActivity extends ListActivity {
 
         @Override
         public String getItem(int position) {
-            return eventList.get(position);
+            return eventList.get(position).getEventTitle();
         }
 
         @Override
@@ -135,12 +165,51 @@ public class EventsActivity extends ListActivity {
              //   holder.star.setOnCheckedChangeListener(mStarCheckedChanceChangeListener);
                 holder.titleContent = (TextView) convertView.findViewById(R.id.titleContent);
                 holder.detailsContent = (TextView) convertView.findViewById(R.id.detailsContent);
+                holder.timeContent = (TextView) convertView.findViewById(R.id.timeContent);
                 holder.addButton =  (Button)convertView.findViewById(R.id.btn_add);
                 holder.addButton.setOnClickListener(
                         new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                               int position = (int)v.getTag();
+
+                                Calendar calSTime = Calendar.getInstance();
+                                Calendar calETime = Calendar.getInstance();
+
+
+                                Date startDate = eventList.get(position).getEventDate();
+                                int duration =  eventList.get(position).getDuration();
+                                String title = eventList.get(position).getEventTitle();
+
+                                calSTime.setTime(startDate);
+                                calETime.setTime(startDate );
+
+                                Calendar cal = Calendar.getInstance();
+                                Intent intent = new Intent(Intent.ACTION_EDIT);
+                                intent.setType("vnd.android.cursor.item/event");
+                                intent.putExtra("beginTime", calSTime.getTimeInMillis());
+                                intent.putExtra("allDay", false);
+                                intent.putExtra("rrule", "FREQ=DAILY;COUNT=1");
+                                intent.putExtra("endTime", calSTime.getTimeInMillis()+ duration *60*1000);
+                                intent.putExtra("title", "[Student Club]: " + title);
+                                intent.putExtra("description", "This is a sample description");
+                                startActivity(intent);
+
+
+
+
+/*
+
+                                Calendar cal = Calendar.getInstance();
+                                Intent intent = new Intent(Intent.ACTION_EDIT);
+                                intent.setType("vnd.android.cursor.item/event");
+                                intent.putExtra("beginTime", cal.getTimeInMillis());
+                                intent.putExtra("allDay", true);
+                                intent.putExtra("rrule", "FREQ=YEARLY");
+                                intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
+                                intent.putExtra("title", "A Test Event from android app");
+                                startActivity(intent);
+*/
                                 showMessage("Clicked " + position);
                                 // TODO Cyril: Not implemented yet!
 
@@ -158,7 +227,9 @@ public class EventsActivity extends ListActivity {
             }
 
           //  holder.star.setChecked(mStarStates[position]);
-            holder.titleContent.setText(eventList.get(position));
+            holder.titleContent.setText(eventList.get(position).getEventTitle());
+            holder.detailsContent.setText(eventList.get(position).getEventLocation());
+            holder.timeContent.setText(eventList.get(position).getEventTime());
 
             return convertView;
         }

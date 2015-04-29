@@ -59,8 +59,8 @@ public class HomeActivity extends ListActivity {
 
             Toast.makeText(HomeActivity.this, "Events Clicked", Toast.LENGTH_SHORT).show();
         }else if(item.equals("News")){
-            Intent myIntent = new Intent(HomeActivity.this, NewsActivity.class);
-            HomeActivity.this.startActivity(myIntent);
+            this.getNews();
+
             Toast.makeText(HomeActivity.this, "News Clicked", Toast.LENGTH_SHORT).show();
         }else if(item.equals("facebook page")){
             Toast.makeText(HomeActivity.this, "FB Clicked", Toast.LENGTH_SHORT).show();
@@ -84,10 +84,11 @@ public class HomeActivity extends ListActivity {
 
 
     public static Intent getOpenFacebookIntent(Context context) {
-
+        String fbURL = "https://www.facebook.com/isa.asu";
         try {
             context.getPackageManager().getPackageInfo("com.facebook.katana", 0);
-            return new Intent(Intent.ACTION_VIEW, Uri.parse("fb://profile/152880021441864"));
+            Uri uri = Uri.parse("fb://facewebmodal/f?href=" + fbURL);
+            return new Intent(Intent.ACTION_VIEW,uri);
         } catch (Exception e) {
             return new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.facebook.com/isa.asu"));
         }
@@ -153,11 +154,40 @@ public class HomeActivity extends ListActivity {
         }
     }
 
-    public void afterAsync(String s){
+    public void getNews(){
+        try {
+            URL URLOut = new URL(this.getString(R.string.url_string));
+            MyTaskParams mp = new MyTaskParams(URLOut, "getNews");
+            AsyncCalc ac = (AsyncCalc) new AsyncCalc().execute(mp);
+            jObject = new JSONObject(result);
+        }
+
+        catch (MalformedURLException m1){
+            android.util.Log.d("Error in URL","");
+        }
+
+        catch (Exception ex) {
+            android.util.Log.d(this.getClass().getSimpleName(), "Error connecting to the Server");
+        }
+    }
+
+    public void callEvents(String s){
         try {
             jObject = new JSONObject(s);
             Intent myIntent = new Intent(HomeActivity.this, EventsActivity.class);
             myIntent.putExtra("ListOfEvents",jObject.toString());
+            HomeActivity.this.startActivity(myIntent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        android.util.Log.d(this.getClass().getSimpleName(),s);
+    }
+
+    public void callNews(String s){
+        try {
+            jObject = new JSONObject(s);
+            Intent myIntent = new Intent(HomeActivity.this, NewsActivity.class);
+            myIntent.putExtra("ListOfNews",jObject.toString());
             HomeActivity.this.startActivity(myIntent);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -197,6 +227,7 @@ public class HomeActivity extends ListActivity {
         double val = 0.0;
         String returnValue = null;
         int errorFlag = 0;
+        String operator = null;
         protected String doInBackground(MyTaskParams... mtp) {
             try{
                 ClubStub calc = new ClubStub(mtp[0].getNewURL(),errorFlag);
@@ -205,12 +236,15 @@ public class HomeActivity extends ListActivity {
                    // ((TextView)HomeActivity.this.findViewById(R.id.messageView)).setText("Cannot connect to the server");
                 }
                 String oper = mtp[0].getOperatorV();
+                operator = oper;
                 //double leftOp = exp1;
                 //double rightOp = exp2;
                 if("getAboutUs".equals(oper)){
                     returnValue = calc.getAboutUs();
                 }else if("getEvents".equals(oper)){
                     returnValue = calc.getEvents();
+                }else if("getNews".equals(oper)){
+                    returnValue = calc.getNews();
                 }
               /*  else if("Subtract".equals(oper)){
                     val = calc.sub(leftOp, rightOp);
@@ -233,13 +267,22 @@ public class HomeActivity extends ListActivity {
         }
 
         protected void onPostExecute(String res){
+
             NumberFormat nf = NumberFormat.getInstance();
             nf.setMaximumFractionDigits(2);
             android.util.Log.d(this.getClass().getSimpleName(),res);
             HomeActivity.this.result = res;
+            if("getAboutUs".equals(operator)){
+                Toast.makeText(HomeActivity.this, res, Toast.LENGTH_LONG).show();
+            }else if("getEvents".equals(operator)){
+                HomeActivity.this.callEvents(res);
+            }else if("getNews".equals(operator)){
+                HomeActivity.this.callNews(res);
+            }
+
 
             Toast.makeText(HomeActivity.this, res, Toast.LENGTH_LONG).show();
-            HomeActivity.this.afterAsync(res);
+
             //((TextView)findViewById(R.id.displayNum)).setText(nf.format(res));
             //exp1 = 0;
            // exp2 = 0;

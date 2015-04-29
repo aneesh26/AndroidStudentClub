@@ -1,3 +1,0 @@
-Student Club - Arizona State University.
-
-We are a Student club based at Arizona State University. The main purpose of this file is to provide content for the About Us page.Sill need to figure out how to add spaces between lines. Maybe send it as an object. This text will be fed into the intent and sent across to a new activity whih would launch and display this information.

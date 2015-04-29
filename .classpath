@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="app/build/generated/source/buildConfig/debug"/>
+	<classpathentry kind="src" path="app/build/generated/source/r/debug"/>
+	<classpathentry kind="src" path="app/src/androidTest/java"/>
+	<classpathentry kind="src" path="app/src/main/java"/>
+	<classpathentry kind="src" path="Server/StudentClubServer/src"/>
+	<classpathentry kind="lib" path="app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/21.0.3/classes.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/classes.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/exploded-aar/com.android.support/support-v4/21.0.3/libs/internal_impl-21.0.3.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/pre-dexed/debug/classes-065c4c2ab0d6cf25dca5e8902af2ad0fa8be866a.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/pre-dexed/debug/classes-1a58faa807bbb0fcc3f68d4c5e060d32ad6380c9.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-fafbf956b5ecb489c058ea578df4c61058b86b27.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/pre-dexed/debug/json-8555f56b15f069ca866bcdabe3e42d3aba049ef8.jar"/>
+	<classpathentry kind="lib" path="app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-bc59c90bc4b9d95c43e7ae9a921540c6d34cec58.jar"/>
+	<classpathentry kind="lib" path="app/libs/json.jar"/>
+	<classpathentry kind="lib" path="gradle/wrapper/gradle-wrapper.jar"/>
+	<classpathentry kind="lib" path="Server/StudentClubServer/dist/lib/joda-time-2.4.jar"/>
+	<classpathentry kind="lib" path="Server/StudentClubServer/dist/lib/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="Server/StudentClubServer/dist/lib/json.jar"/>
+	<classpathentry kind="lib" path="Server/StudentClubServer/dist/StudentClubServer.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="app/build/intermediates/classes/debug"/>
+</classpath>
