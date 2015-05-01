@@ -2,6 +2,7 @@ package edu.asu.mscs.ashastry.studentclub;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
@@ -11,8 +12,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.app.ListActivity;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,13 +28,17 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.NumberFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+
 import org.json.*;
 
 
 public class HomeActivity extends ListActivity {
 
-    ArrayList<String> waypointList = new ArrayList<String>();
-    ArrayAdapter<String> adapter;
+    ArrayList<String> menuList = new ArrayList<String>();
+    //ArrayAdapter<String> adapter;
+    AccessoriesAdapter adapter;
     String result;
     JSONObject jObject = null;
 
@@ -36,17 +47,19 @@ public class HomeActivity extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        waypointList.add("Events");
-        waypointList.add("News");
-        waypointList.add("facebook page");
-        waypointList.add("F.A.Qs");
-        waypointList.add("About Us");
-        waypointList.add("Settings");
+        menuList.add("Events");
+        menuList.add("News");
+        menuList.add("facebook page");
+        menuList.add("F.A.Qs");
+        menuList.add("About Us");
+        menuList.add("Settings");
 
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, waypointList);
-
+     //   adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, menuList);
+        adapter = new AccessoriesAdapter();
         //adapter.notifyDataSetChanged();
         setListAdapter(adapter);
+
+
 
     }
 
@@ -66,15 +79,13 @@ public class HomeActivity extends ListActivity {
             Toast.makeText(HomeActivity.this, "FB Clicked", Toast.LENGTH_SHORT).show();
            startActivity(getOpenFacebookIntent(this.getApplicationContext()));
         }else if(item.equals("F.A.Qs")){
-            Toast.makeText(HomeActivity.this, "FAQ Clicked", Toast.LENGTH_SHORT).show();
-            Intent myIntent = new Intent(HomeActivity.this, FAQsActivity.class);
-            HomeActivity.this.startActivity(myIntent);
+            this.getFAQ();
 
+            Toast.makeText(HomeActivity.this, "FAQs Clicked", Toast.LENGTH_SHORT).show();
         }else if(item.equals("About Us")){
-            getAboutUs();
-            Toast.makeText(HomeActivity.this, "About Us Clicked", Toast.LENGTH_SHORT).show();
-            Intent myIntent = new Intent(HomeActivity.this, AboutUsActivity.class);
-            HomeActivity.this.startActivity(myIntent);
+            this.getAboutUs();
+
+            Toast.makeText(HomeActivity.this, "AboutUs Clicked", Toast.LENGTH_SHORT).show();
 
           //  Toast.makeText(HomeActivity.this, this.result, Toast.LENGTH_LONG).show();
         }else if(item.equals("Settings")){
@@ -171,6 +182,23 @@ public class HomeActivity extends ListActivity {
         }
     }
 
+    public void getFAQ(){
+        try {
+            URL URLOut = new URL(this.getString(R.string.url_string));
+            MyTaskParams mp = new MyTaskParams(URLOut, "getFAQ");
+            AsyncCalc ac = (AsyncCalc) new AsyncCalc().execute(mp);
+            jObject = new JSONObject(result);
+        }
+
+        catch (MalformedURLException m1){
+            android.util.Log.d("Error in URL","");
+        }
+
+        catch (Exception ex) {
+            android.util.Log.d(this.getClass().getSimpleName(), "Error connecting to the Server");
+        }
+    }
+
     public void callEvents(String s){
         try {
             jObject = new JSONObject(s);
@@ -188,6 +216,30 @@ public class HomeActivity extends ListActivity {
             jObject = new JSONObject(s);
             Intent myIntent = new Intent(HomeActivity.this, NewsActivity.class);
             myIntent.putExtra("ListOfNews",jObject.toString());
+            HomeActivity.this.startActivity(myIntent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        android.util.Log.d(this.getClass().getSimpleName(),s);
+    }
+
+    public void callFAQ(String s){
+        try {
+            jObject = new JSONObject(s);
+            Intent myIntent = new Intent(HomeActivity.this, FAQsActivity.class);
+            myIntent.putExtra("ListOfFAQ",jObject.toString());
+            HomeActivity.this.startActivity(myIntent);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        android.util.Log.d(this.getClass().getSimpleName(),s);
+    }
+
+    public void callAboutUs(String s){
+        try {
+            jObject = new JSONObject(s);
+            Intent myIntent = new Intent(HomeActivity.this, AboutUsActivity.class);
+            myIntent.putExtra("AboutUs",jObject.toString());
             HomeActivity.this.startActivity(myIntent);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -245,6 +297,8 @@ public class HomeActivity extends ListActivity {
                     returnValue = calc.getEvents();
                 }else if("getNews".equals(oper)){
                     returnValue = calc.getNews();
+                }else if("getFAQ".equals(oper)){
+                    returnValue = calc.getFAQ();
                 }
               /*  else if("Subtract".equals(oper)){
                     val = calc.sub(leftOp, rightOp);
@@ -273,15 +327,18 @@ public class HomeActivity extends ListActivity {
             android.util.Log.d(this.getClass().getSimpleName(),res);
             HomeActivity.this.result = res;
             if("getAboutUs".equals(operator)){
-                Toast.makeText(HomeActivity.this, res, Toast.LENGTH_LONG).show();
+                HomeActivity.this.callAboutUs(res);
             }else if("getEvents".equals(operator)){
                 HomeActivity.this.callEvents(res);
             }else if("getNews".equals(operator)){
                 HomeActivity.this.callNews(res);
             }
+            else if("getFAQ".equals(operator)){
+                HomeActivity.this.callFAQ(res);
+            }
 
 
-            Toast.makeText(HomeActivity.this, res, Toast.LENGTH_LONG).show();
+         //   Toast.makeText(HomeActivity.this, res, Toast.LENGTH_LONG).show();
 
             //((TextView)findViewById(R.id.displayNum)).setText(nf.format(res));
             //exp1 = 0;
@@ -289,5 +346,86 @@ public class HomeActivity extends ListActivity {
            // decExp = 0;
         }
     }
+
+
+
+    private static class AccessoriesViewHolder {
+
+        public TextView homeItem;
+        public ImageView homeImage;
+
+    }
+
+    private class AccessoriesAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return menuList.size();//CHEESES.length;
+        }
+
+        @Override
+        public String getItem(int position) {
+            return menuList.get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View convertView, ViewGroup parent) {
+
+            AccessoriesViewHolder holder = null;
+
+            if (convertView == null) {
+                //convertView = getLayoutInflater().inflate(R.layout.activity_events, parent, false);
+                convertView = getLayoutInflater().inflate(R.layout.home_item, parent, false);
+
+                holder = new AccessoriesViewHolder();
+                //  holder.star = (CheckBox) convertView.findViewById(R.id.btn_star);
+                //   holder.star.setOnCheckedChangeListener(mStarCheckedChanceChangeListener);
+                holder.homeItem = (TextView) convertView.findViewById(R.id.homeItem);
+                holder.homeImage = (ImageView) convertView.findViewById(R.id.homeImage);
+
+                convertView.setTag(holder);
+                if(position % 2 == 1) {
+                    convertView.setBackgroundColor(getResources().getColor(R.color.maroon_light));
+                }else{
+                    convertView.setBackgroundColor(getResources().getColor(R.color.maroon_dark));
+                }
+                holder.homeItem.setTextColor(getResources().getColor(R.color.maroon_font));
+              //  holder.addButton.setTag(position);
+
+            } else {
+                holder = (AccessoriesViewHolder) convertView.getTag();
+            }
+
+            //  holder.star.setChecked(mStarStates[position]);
+            holder.homeItem.setText(menuList.get(position));
+            //set image here
+
+            return convertView;
+        }
+    }
+
+
+    private View.OnClickListener mBuyButtonClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = (int)v.getTag();
+           // showMessage("Clicked " + position);
+            // TODO Cyril: Not implemented yet!
+
+        }
+    };
+
+    private CompoundButton.OnCheckedChangeListener mStarCheckedChanceChangeListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            // TODO Cyril: Not implemented yet!
+        }
+    };
+
 
 }

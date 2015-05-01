@@ -11,7 +11,8 @@
         android:id="@+id/newsTitle"
         android:layout_weight="0.09"
         android:textStyle="bold"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:padding="10dp"/>
 
     <TextView
         android:layout_width="206dp"
@@ -26,7 +27,8 @@
         android:id="@+id/newsBody"
         android:layout_gravity="center_horizontal"
         android:layout_weight="0.82"
-        android:textSize="15dp" />
+        android:textSize="15dp"
+        android:padding="10dp"/>
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"

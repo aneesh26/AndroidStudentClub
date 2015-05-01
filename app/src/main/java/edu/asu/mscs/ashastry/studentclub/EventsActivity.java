@@ -23,6 +23,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -123,7 +124,7 @@ public class EventsActivity extends ListActivity {
 
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
-        showMessage("Test");//getString(R.string.you_want_info_about_format, CHEESES[position]));
+       // showMessage("Test");//getString(R.string.you_want_info_about_format, CHEESES[position]));
     }
 
     private static class AccessoriesViewHolder {
@@ -131,7 +132,7 @@ public class EventsActivity extends ListActivity {
         public TextView titleContent;
         public TextView detailsContent;
         public TextView timeContent;
-        public Button addButton;
+        public ImageButton addButton;
     }
 
     private class AccessoriesAdapter extends BaseAdapter {
@@ -166,7 +167,7 @@ public class EventsActivity extends ListActivity {
                 holder.titleContent = (TextView) convertView.findViewById(R.id.titleContent);
                 holder.detailsContent = (TextView) convertView.findViewById(R.id.detailsContent);
                 holder.timeContent = (TextView) convertView.findViewById(R.id.timeContent);
-                holder.addButton =  (Button)convertView.findViewById(R.id.btn_add);
+                holder.addButton =  (ImageButton)convertView.findViewById(R.id.btn_add);
                 holder.addButton.setOnClickListener(
                         new OnClickListener() {
                             @Override
@@ -193,26 +194,8 @@ public class EventsActivity extends ListActivity {
                                 intent.putExtra("endTime", calSTime.getTimeInMillis()+ duration *60*1000);
                                 intent.putExtra("title", "[Student Club]: " + title);
                                 intent.putExtra("description", "This is a sample description");
+                                showMessage("Adding Event to Calendar");
                                 startActivity(intent);
-
-
-
-
-/*
-
-                                Calendar cal = Calendar.getInstance();
-                                Intent intent = new Intent(Intent.ACTION_EDIT);
-                                intent.setType("vnd.android.cursor.item/event");
-                                intent.putExtra("beginTime", cal.getTimeInMillis());
-                                intent.putExtra("allDay", true);
-                                intent.putExtra("rrule", "FREQ=YEARLY");
-                                intent.putExtra("endTime", cal.getTimeInMillis()+60*60*1000);
-                                intent.putExtra("title", "A Test Event from android app");
-                                startActivity(intent);
-*/
-                                showMessage("Clicked " + position);
-                                // TODO Cyril: Not implemented yet!
-
                             }
                         }
 
@@ -222,14 +205,23 @@ public class EventsActivity extends ListActivity {
                 convertView.setTag(holder);
                 holder.addButton.setTag(position);
 
+
+
             } else {
                 holder = (AccessoriesViewHolder) convertView.getTag();
             }
-
+            if(position % 2 == 1) {
+                convertView.setBackgroundColor(getResources().getColor(R.color.maroon_light));
+            }else{
+                convertView.setBackgroundColor(getResources().getColor(R.color.maroon_dark));
+            }
           //  holder.star.setChecked(mStarStates[position]);
             holder.titleContent.setText(eventList.get(position).getEventTitle());
+            holder.titleContent.setTextColor(getResources().getColor(R.color.maroon_font));
             holder.detailsContent.setText(eventList.get(position).getEventLocation());
+            holder.detailsContent.setTextColor(getResources().getColor(R.color.maroon_font));
             holder.timeContent.setText(eventList.get(position).getEventTime());
+            holder.timeContent.setTextColor(getResources().getColor(R.color.maroon_font));
 
             return convertView;
         }
@@ -243,7 +235,7 @@ public class EventsActivity extends ListActivity {
         @Override
         public void onClick(View v) {
             int position = (int)v.getTag();
-            showMessage("Clicked " + position);
+          //  showMessage("Clicked " + position);
             // TODO Cyril: Not implemented yet!
 
         }

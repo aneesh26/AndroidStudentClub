@@ -120,6 +120,33 @@ public class ClubStub {
         return res;
     }
 
+    public String getFAQ(){
+        String res = null;
+
+        try{
+            JSONArray ja = new JSONArray();
+            //  ja.put(0,left).put(1,right);
+            String callStr = this.packageCalcCall("getFAQ",ja);
+            android.util.Log.d("Client --> Server",callStr);
+            System.out.println("Before server call");
+            String retStr = server.call(callStr);
+            System.out.println("After server call");
+            android.util.Log.d("Server --> Client",retStr);
+            JSONObject result = new JSONObject(retStr);
+            res = result.optString("result");
+
+        }
+        catch(ConnectException ex1){
+            errorF = 1;
+        }
+        catch(Exception ex){
+
+            android.util.Log.d(this.getClass().getSimpleName(),"Error with JSON getNews method");
+            ex.printStackTrace();
+        }
+        return res;
+    }
+
     private String packageCalcCall(String oper, JSONArray args){
         String ret = "";
         try{
