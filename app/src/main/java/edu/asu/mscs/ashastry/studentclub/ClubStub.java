@@ -15,18 +15,23 @@ package edu.asu.mscs.ashastry.studentclub;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  *
- * Purpose:
+ * Purpose: This is a Student Club App to enable Clubs to share information with its members.
+ *          This module is used to communicate with the server
  *
  * @author : Aneesh Shastry  mailto:ashastry@asu.edu
  *           MS Computer Science, CIDSE, IAFSE, Arizona State University
- * @version : February 9, 2015
+ * @version : May 1, 2015
  */
 
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.net.ConnectException;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
 
 
@@ -173,6 +178,24 @@ public class ClubStub {
     }
 
 
+    public static boolean isHostReachable(String serverAddress, int serverTCPport, int timeoutMS){
+        boolean connected = false;
+        Socket socket;
+        try {
+            socket = new Socket();
+            SocketAddress socketAddress = new InetSocketAddress(serverAddress, serverTCPport);
+            socket.connect(socketAddress, timeoutMS);
+            if (socket.isConnected()) {
+                connected = true;
+                socket.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            socket = null;
+        }
+        return connected;
+    }
  /*
     public double add(double left, double right) {
         double res = 0.0;

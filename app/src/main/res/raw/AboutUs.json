@@ -1,0 +1,11 @@
+{
+    "AboutUsData": [
+        {
+            "id": "1",
+            "title": "Student Club",
+            "content": "The Student Club at Arizona State University is a non-profit organization for all the students. Our objectives are to promote service and leadership opportunities. We know how tough it is to travel to a totally new country, thousands of miles away from home and settle down into a students life there. We aim to help new students with the educational and social issues that they may face at ASU . Student-student and student-community interactions are also highly encouraged.",
+            "contact": "(480)-512-1420",
+			"email": "StudentClub@asu.edu"
+        }        
+    ]
+}

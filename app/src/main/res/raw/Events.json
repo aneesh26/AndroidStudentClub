@@ -1,0 +1,39 @@
+{
+  "EventsData": [
+      {
+        "id": "1",
+        "name": "Summer Break - Trip to New York",
+        "date": "2015-05-13 10:00",
+        "duration": "120",
+		"location": ""
+      },
+      {
+        "id": "2",
+        "name": "Football Viewing Party",
+        "date": "2015-06-3 16:00",
+        "duration": "180",
+		"location": "Sun Devil Fitness Center"
+      },
+      {
+        "id": "3",
+        "name": "Coding Challenge",
+        "date": "2015-06-27 12:00",
+        "duration": "60",
+		"location": "Brickyard"
+      },
+      {
+        "id": "4",
+        "name": "Dance Festival",
+        "date": "2015-07-2 18:00",
+        "duration": "120",
+		"location": "Memorial Union"
+      },
+      {
+        "id": "5",
+        "name": "Open General Meeting",
+        "date": "2015-08-12 16:00",
+        "duration": "45",
+		"location": "PEBE"
+      }
+    ]
+}

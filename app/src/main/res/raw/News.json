@@ -1,0 +1,28 @@
+{
+    "NewsData": [
+        {
+            "id": "1",
+            "name": "ASU researchers license technology to measure glucose in saliva, a potential boon for diabetics",
+            "date": "2015-04-27 10:00",
+            "content": "The 340 million diabetes sufferers in the world have plenty to worry about eating well, getting exercise and regularly monitoring the amount of sugar in their bloodstream. That last step is a crucial tool in treating the condition and preventing complications over the long run. \n\nBut its also a pain literally. Most diabetics need to prick their fingers multiple times a day to draw blood samples in order to test their blood sugar.Now, research from an ASU professor is being used in the quest for a non-invasive alternative."
+        },
+        {
+            "id": "2",
+            "name": "ASU team unlocks clues in unidentified human remains",
+            "date": "2015-04-15 15:00",
+            "content": "Like something out of CSI or Bones, researchers at Arizona State University are working to solve the mysteries of unidentified human remains and just as on those TV shows, science plays a key role.\n\nGwyneth Gordon, an associate research scientist in ASU's School of Earth and Space Exploration, will soon be making a trip to academia's most distinctive research facility: the University of Tennessee's Anthropological Research Facility, the original Body Farm."
+        },
+        {
+            "id": "3",
+            "name": "Tau Ceti: The next Earth? Probably not",
+            "date": "2015-04-24 12:00",
+            "content": "In the search for life elsewhere in the universe, Arizona State University researchers report that we can cross one potential off the list: cosmic neighbor and popular sci-fi locale Tau Ceti.\n\nThe Tau Ceti system, popularized in such fictional works as Star Trek, has long been used in science fiction and even popular news as a very likely place to have life due to its proximity to Earth and the star's sun-like characteristics. Since December 2012, Tau Ceti has become even more appealing, thanks to evidence of possibly five planets orbiting it, with two of these Tau Ceti e and f  potentially residing in a region dubbed the habitable zone."
+        },
+        {
+            "id": "4",
+            "name": "ASU team searching for signs of life in the stars",
+            "date": "2015-04-21 16:00",
+            "content": "For centuries, humans have sought to learn whether life exists beyond Earth. That answer is closer than ever to fulfillment, and an ASU team is working on a key part of that quest with NASA's backing.\n\nThousands of exoplanets (planets around other stars) have been discovered in the past decade, and the next decade likely will bring advances in detecting possible signs of life. One way of doing that is looking at the atmospheric makeup of these planets: Do oxygen or methane gases that on Earth arise from the action of life exist there, and are they in fact indicative of life?"
+        }
+    ]
+}

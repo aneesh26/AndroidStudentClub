@@ -1,0 +1,34 @@
+{
+    "FAQsData": [
+        {
+            "id": "1",
+            "question": "How do I maintain F-1 Status?",
+            "answer": "Continue taking 9 credit hours (grad) and 12 credit hours (undergrad) each semester. In case you are about to graduate and you would be taking less than the required hrs then fill the course completion form from ISSO office and submit it before the semester starts.",
+        },
+        {
+            "id": "2",
+            "question": "When can I start working out of campus?",
+            "answer": "The law says that every student has to complete 2 semesters in the new degree with full time status to be eligible to work outside the campus. Once you are eligible you have the option to check for Curricular Practical Training and Optional Practical Training options.",
+        },
+        {
+            "id": "3",
+            "question": "What happens when I withdraw any courses?",
+            "answer": "If you withdraw any courses it is fine unless you fall out of status. If you fall below the required number of credit hours then you have to meet the advisors in ISSO to get the approval and bring yourself back to status.",
+        },
+        {
+            "id": "4",
+            "question": "When can I apply for OPT?",
+            "answer": "The Optional practical training should start the day the student graduates (comprehensive exams or defense). Students with thesis option can also apply for pre OPT i.e. OPT before the day they defend and graduate. Please collect the flyers from ISSO office and make an appointment with the advisor.",
+        },
+		{
+            "id": "5",
+            "question": "When can I apply for CPT?",
+            "answer": "Once you are eligible, i.e. been in campus for 2 semesters and maintained F1 status, you can apply for the CPT. But this CPT has to be a part of your curriculum/graduation and can be of one year maximum. Please confirm the updates and information with ISSO.",
+        },
+		{
+            "id": "6",
+            "question": "Till when can I work in the campus?",
+            "answer": "The students can work till the graduation date i.e. either the comprehensive results day or the defense date. If the course taken in that particular semester is included in the POS then the day the students takes the last exam is the graduation date. You might want to clarify more with ISSO.",
+        }
+    ]
+}
